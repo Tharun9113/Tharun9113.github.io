@@ -281,6 +281,17 @@
             font-size: 3rem;
             color: white;
             font-weight: bold;
+            background-image: url('mypic.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: 4px solid white;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Fallback for profile image if it doesn't load */
+        .profile-img:not([style*="background-image"]) {
+            background: var(--gradient);
         }
 
         /* Services Section */
@@ -367,7 +378,7 @@
 
         .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
         }
 
@@ -399,14 +410,19 @@
             position: relative;
             overflow: hidden;
             border-radius: 10px 10px 0 0;
+            transition: transform 0.3s ease;
+        }
+
+        .portfolio-image:hover {
+            transform: scale(1.05);
         }
 
         .portfolio-image.face-recognition {
-            background-image: url('C:\Users\tharu\Pictures\FaceRecognition Attendance.jpg');
+            background-image: url('FaceRecognition Attendance.jpg');
         }
 
         .portfolio-image.auth-guard {
-            background-image: url('C:\Users\tharu\Pictures\AuthGuard Pro.jpg');
+            background-image: url('AuthGuard Pro.jpg');
         }
 
         /* Fallback styling if images don't load */
@@ -682,6 +698,53 @@
             .services-grid,
             .testimonials-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .profile-img {
+                width: 120px;
+                height: 120px;
+                font-size: 2.5rem;
+            }
+
+            .portfolio-filters {
+                gap: 0.5rem;
+            }
+
+            .filter-btn {
+                padding: 0.4rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .hero-content {
+                padding: 0 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .profile-card {
+                padding: 1.5rem;
+            }
+
+            .service-card,
+            .testimonial-card {
+                padding: 1.5rem;
+            }
+
+            .contact-form {
+                padding: 1.5rem;
             }
         }
 
@@ -1229,6 +1292,25 @@
                 alert('Thank you for subscribing! You\'ll receive updates about my latest projects.');
                 this.reset();
             }
+        });
+
+        // Handle image loading errors
+        function handleImageError(img) {
+            img.style.background = 'var(--gradient)';
+            img.innerHTML = '📷';
+        }
+
+        // Add error handling for portfolio images
+        document.addEventListener('DOMContentLoaded', function() {
+            const portfolioImages = document.querySelectorAll('.portfolio-image');
+            portfolioImages.forEach(img => {
+                // Create a test image to check if the background image loads
+                const testImg = new Image();
+                testImg.onerror = function() {
+                    handleImageError(img);
+                };
+                testImg.src = img.style.backgroundImage.slice(5, -2); // Extract URL from background-image
+            });
         });
     </script>
 </body>
